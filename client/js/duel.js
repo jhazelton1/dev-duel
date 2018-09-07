@@ -1,20 +1,11 @@
 /* eslint-disable no-undef */
-/*
-  TODO
-  Fetch 2 user's github data and display their profiles side by side
-  If there is an error in finding user or both users, display appropriate error
-  message stating which user(s) doesn't exist
-
-  It is up to the student to choose how to determine a 'winner'
-  and displaying their profile/stats comparison in a way that signifies who won.
- */
 
 const strikethrough = str => {
-  $(str).css('text-decoration', 'line-through red')
+  $(str).css('background-color', 'tomato', 'text-align', 'center')
 }
 
 const winnerBorder = str => {
-  $(str).css('border', '1px solid green')
+  $(str).css('background-color', 'lightgreen', 'text-align', 'center')
 }
 
 const titlesScore = titles =>
@@ -120,6 +111,9 @@ $('#duel-submit').click(() => {
   const userOne = $('#left-name').val()
   const userTwo = $('#right-name').val()
 
+  $('#left-name').val('')
+  $('#right-name').val('')
+
   fetch(`${USERS_URL}?username=${userOne}&username=${userTwo}`, {})
     .then(response => response.json())
     .then(([one, two]) => {
@@ -138,7 +132,7 @@ $('#duel-submit').click(() => {
               <span id= "titles-left"class="titles value">${one.titles.join(' ')}</span>
           </div>
           <div class="stat">
-              <span class="label">Favorite language:&nbsp;</span>
+              <span class="label">Favorite:&nbsp;</span>
               <span class="favorite-language value">${one.favorite_language}</span>
           </div>
           <div class="stat">
@@ -146,7 +140,7 @@ $('#duel-submit').click(() => {
               <span id= "total-stars-left" class="total-stars value">${one.total_stars}</span>
           </div>
           <div class="stat">
-              <span class="label">Highest star count:&nbsp;</span>
+              <span class="label">Highest Stars:&nbsp;</span>
               <span class="most-starred value">${one.highest_starred}</span>
           </div>
           <div class="stat">
@@ -176,7 +170,7 @@ $('#duel-submit').click(() => {
               <span id="titles-right" class="titles value">${two.titles.join(' ')}</span>
           </div>
           <div class="stat">
-              <span class="label">Favorite language:&nbsp;</span>
+              <span class="label">Favorite:&nbsp;</span>
               <span class="favorite-language value">${two.favorite_language}</span>
           </div>
           <div class="stat">
@@ -184,11 +178,11 @@ $('#duel-submit').click(() => {
               <span id="total-stars-right" class="total-stars value">${two.total_stars}</span>
           </div>
           <div class="stat">
-              <span class="label">Highest star count:&nbsp;</span>
+              <span class="label">Highest Stars:&nbsp;</span>
               <span class="most-starred value">${two.highest_starred}</span>
           </div>
           <div class="stat">
-              <span class="label">Public repos:&nbsp;</span>
+              <span class="label">Public Repos:&nbsp;</span>
               <span id="public-repos-right" class="public-repos value">${two.public_repos}</span>
           </div>
           <div class="stat">
@@ -204,9 +198,12 @@ $('#duel-submit').click(() => {
 
       $('.duel-container').html(`${leftHtml}\n${rightHtml}`)
 
-      let winnerHTML = determineWinner(one, two) === one ? leftHtml : rightHtml
+      let winnerIntro = `<h1>The Winner is:</h1>`
+      let winnerHTML = determineWinner(one, two) === one
+        ? `${winnerIntro}\n${leftHtml}`
+        : `${winnerIntro}\n${rightHtml}`
 
-      setTimeout(() => $('.winner-container').html(winnerHTML), 3000)
+      setTimeout(() => $('.winner-container').html(winnerHTML), 2000)
     })
     .catch(err => {
       console.log(`Error getting data for ${userOne} and ${userTwo}`)

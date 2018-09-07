@@ -23,18 +23,13 @@ $('form').submit(() => {
   console.log(`examining ${username}`)
 
   // Fetch data for given user
-  // (https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
   fetch(`${USER_URL}/${username}`)
-    .then(response => response.json()) // Returns parsed json data from response body as promise
+    .then(response => response.json())
     .then(data => {
       format(data)
       console.log(`Got data for ${username}`)
       console.log(data)
-      /*
-        TODO
-        Attach the data returned to the DOM
-        The data currently hard-coded into the DOM is placeholder data
-       */
+
       let html = `<span class="username">${data.username}</span>
       <span class="full-name">${data.name}</span>
       <span class="location">${data.location}</span>
@@ -79,12 +74,7 @@ $('form').submit(() => {
       let errorHtml = `<h1> That user doesn't exist! </h1>`
 
       $('.user-results').html(errorHtml)
-      /*
-        TODO
-        If there is an error finding the user, instead toggle the display of the '.user-error' element
-        and populate it's inner span '.error' element with an appropriate error message
-      */
     })
 
-  return false // return false to prevent default form submission
+  return false
 })

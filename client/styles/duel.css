@@ -62,13 +62,27 @@ span.username {
 }
 
 .user-results {
-    border: 1px solid black;
-    padding: 10px;
+    
+    border: 5px solid black;
+    border-radius: 10%;
+    padding: 20px;
 }
 
+.stat > span {
+    padding: 5px;
+    border: 1px solid black;
+}   
+
 img {
-    height: 250px;
+    height: 200px;
     width: auto;
     padding: 20px;
-    border-radius: 50%
+    border-radius: 50%;
+}
+
+.winner-container > .user-results {
+    height: auto;
+    width: 450px;
+    border: 10px solid lightgreen;
+    border-radius: 10%;
 }
