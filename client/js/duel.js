@@ -155,6 +155,10 @@ $('#duel-submit').click(() => {
               <span class="label">Followers:&nbsp;</span>
               <span id="followers-left" class="followers value">${one.followers}</span>
           </div>
+          <div class="stat">
+              <span class="label">Following:&nbsp;</span>
+              <span id="following-left" class="followers value">${one.following}</span>
+          </div>
       </div>
 </section>`
 
@@ -192,6 +196,10 @@ $('#duel-submit').click(() => {
           <div class="stat">
               <span class="label">Followers:&nbsp;</span>
               <span id="followers-right" class="followers value">${two.followers}</span>
+          </div>
+          <div class="stat">
+              <span class="label">Following:&nbsp;</span>
+              <span id="following-right" class="followers value">${two.following}</span>
           </div>
       </div>
 </section>`
