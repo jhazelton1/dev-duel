@@ -69,8 +69,13 @@ export default () => {
     }
   }
 
+  const isVeteran = user => {
+    let date = new Date(user.created_at)
+    return date.getFullYear() <= 2015
+  }
+
   const isPopular = user => {
-    return user.followers / 2 > user.following
+    return user.followers / 2 > user.following && user.followers > 5
   }
 
   const isStalker = user => {
@@ -103,6 +108,7 @@ export default () => {
 
   const getTitles = (repo, user) => {
     let titles = []
+
     if (isForker(repo)) {
       titles.push('Forker')
     }
@@ -117,6 +123,9 @@ export default () => {
     }
     if (isPopular(user)) {
       titles.push('Mr. Popular')
+    }
+    if (isVeteran(user)) {
+      titles.push('Veteran')
     }
 
     return titles
@@ -158,23 +167,26 @@ export default () => {
   /** GET /api/user/:username - Get user */
   router.get('/user/:username', validate(validation.user), (req, res) => {
     const username = req.params.username
-    Promise.all([
-      getUser(username),
-      getUserRepos(username)
-    ]).then(([user, repo]) => {
-      res.json(traverse(user, repo))
-    })
+    Promise.all([getUser(username), getUserRepos(username)])
+      .then(([user, repo]) => {
+        res.json(traverse(user, repo))
+      })
+      .catch(err => {
+        res.send(err)
+      })
   })
 
   /** GET /api/users?username - Get users */
   router.get('/users?', validate(validation.users), (req, res) => {
     const usernames = req.query.username
-    Promise.all(
-      readMultipleUsers(usernames)
-    ).then(([user, repo, userTwo, repoTwo]) => {
-      let arr = [traverse(user, repo), traverse(userTwo, repoTwo)]
-      res.json(arr)
-    })
+    Promise.all(readMultipleUsers(usernames))
+      .then(([user, repo, userTwo, repoTwo]) => {
+        let arr = [traverse(user, repo), traverse(userTwo, repoTwo)]
+        res.json(arr)
+      })
+      .catch(err => {
+        res.send(err)
+      })
   })
 
   return router

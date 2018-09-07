@@ -1,4 +1,23 @@
 /* eslint-disable no-undef */
+
+const format = obj => {
+  for (let k in obj) {
+    if (obj[k] === null) {
+      obj[k] = `${k.slice(0, 1).toUpperCase() + k.slice(1)}: Not Provided`
+    }
+  }
+  if (obj['titles'].length === 0) {
+    obj['titles'].push('None')
+  }
+  if (obj['bio'].length > 40) {
+    obj['bio'] = `${obj['bio'].slice(0, 37) + '...'}`
+  }
+  if (obj['favorite_language'] === null) {
+    obj[favorite_language] = 'None'
+  }
+  return obj
+}
+
 $('form').submit(() => {
   const username = $('form input').val()
   console.log(`examining ${username}`)
@@ -8,6 +27,7 @@ $('form').submit(() => {
   fetch(`${USER_URL}/${username}`)
     .then(response => response.json()) // Returns parsed json data from response body as promise
     .then(data => {
+      format(data)
       console.log(`Got data for ${username}`)
       console.log(data)
       /*
@@ -55,6 +75,10 @@ $('form').submit(() => {
     .catch(err => {
       console.log(`Error getting data for ${username}`)
       console.log(err)
+
+      let errorHtml = `<h1> That user doesn't exist! </h1>`
+
+      $('.user-results').html(errorHtml)
       /*
         TODO
         If there is an error finding the user, instead toggle the display of the '.user-error' element

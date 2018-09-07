@@ -45,3 +45,10 @@ span.username {
 .stat .value {
     justify-content: flex-start;
 }
+
+img {
+    height: 300px;
+    width: auto;
+    padding: 20px;
+    border-radius: 50%
+}
